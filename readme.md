@@ -37,22 +37,25 @@ This webserver makes common development resources accessible when developing in 
 1. Open another project and link to your resources normally via `localhost:4000/public/` (example below).
 
 ```html
-<head>
-	<title>Project Title</title>
-	<link rel="icon" type="image/png" href="http://localhost:4000/public/icons/special-dev-favicon.png">
-	<link rel="stylesheet" href="http://localhost:4000/public/special-font/special-font.css">
-	<link rel="stylesheet" href="http://localhost:4000/public/styles/window-dimensions-helper.css">
-	<link rel="stylesheet" href="styles/main.css">
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>Project Title</title>
+		<link rel="icon" type="image/png" href="http://localhost:4000/public/icons/special-dev-favicon.png">
+		<link rel="stylesheet" href="http://localhost:4000/public/special-font/special-font.css">
+		<link rel="stylesheet" href="http://localhost:4000/public/styles/window-dimensions-helper.css">
+		<link rel="stylesheet" href="styles/main.css">
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	</head>
+	<body>
 
-	(...)
+		... (rest of document) ...
 
-	<script src="http://localhost:4000/public/scripts/window-dimensions-helper.js"></script>
-	<script src="scripts/main.js"></script>
-</body>
+		<script src="http://localhost:4000/public/scripts/window-dimensions-helper.js"></script>
+		<script src="scripts/main.js"></script>
+	</body>
+</html>
 ```
 
 ## License
