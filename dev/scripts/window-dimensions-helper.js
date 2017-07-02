@@ -1,52 +1,63 @@
 "use strict";
 
 const wdHelper = {
-	// shorthand helper methods querySelector and querySelectorAll functions
-	dqs: (query) => { return document.querySelector(query); },
-	dqsa: (query) => { return document.querySelectorAll(query); },
+    // shorthand helper methods for querySelector and querySelectorAll functions
+    dqs: (query) => document.querySelector(query),
+    dqsa: (query) => document.querySelectorAll(query)
 };
 
 wdHelper.init = () => {
-	wdHelper.insertDimensionsContainer();
+    wdHelper.insertDimensionsContainer();
 };
 
 wdHelper.insertDimensionsContainer = () => {
-	const dimensionsContainer = document.createElement("div");
-	dimensionsContainer.id = "wdHelper"; // add id so element can be targeted with CSS
-	dimensionsContainer.innerHTML = `
-		<p id="windowWidth">width (window) = <span></span></p>
-		<p id="windowWidthSb">width (window+scrollbar) = <span></span></p>
-		<p id="windowHeight">height (window) = <span></span></p>
-	`
+    const dimensionsContainer = document.createElement("div");
 
-	wdHelper.dqs("body").appendChild(dimensionsContainer);
+    // add id so element can be targeted with CSS
+    dimensionsContainer.id = "wdHelper";
 
-	wdHelper.storeDimensionElements();
+    // fill dimensionsContainer with HTML elements
+    dimensionsContainer.innerHTML = `
+        <p id="windowWidth">width (window) = <span></span></p>
+        <p id="windowWidthScrollbar">width (window+scrollbar) = <span></span></p>
+        <p id="windowHeight">height (window) = <span></span></p>
+    `
+
+    wdHelper.dqs("body").appendChild(dimensionsContainer);
+
+    wdHelper.storeDimensionElements();
 };
 
 wdHelper.storeDimensionElements = () => {
-	wdHelper.windowWidthE = wdHelper.dqs("#windowWidth span"); // width of window
-	wdHelper.windowWidthSbE = wdHelper.dqs("#windowWidthSb span"); // width of window + scrollbar
-	wdHelper.windowHeightE = wdHelper.dqs("#windowHeight span"); // height of window
+    // store the following elements that correspond to:
+        // 1. width of the window
+        // 2. width of the window + scrollbar
+        // 3. height of the window
+    wdHelper.windowWidth = wdHelper.dqs("#windowWidth span");
+    wdHelper.windowWidthScrollbar = wdHelper.dqs("#windowWidthScrollbar span");
+    wdHelper.windowHeight = wdHelper.dqs("#windowHeight span");
 
-	wdHelper.calculateDimensions();
+    wdHelper.calculateDimensions();
 };
 
 wdHelper.calculateDimensions = () => {
-	let windowWidth = document.documentElement.offsetWidth;
-	wdHelper.windowWidthE.textContent = `${windowWidth}px`;
+    // calculate then update the dimension elements
+    let windowWidth = document.documentElement.offsetWidth;
+    wdHelper.windowWidth.textContent = `${windowWidth}px`;
 
-	let windowWidthSb = window.innerWidth;
-	wdHelper.windowWidthSbE.textContent = `${windowWidthSb}px`;
+    let windowWidthScrollbar = window.innerWidth;
+    wdHelper.windowWidthScrollbar.textContent = `${windowWidthScrollbar}px`;
 
-	let windowHeight = window.innerHeight;
-	wdHelper.windowHeightE.textContent = `${windowHeight}px`;
+    let windowHeight = window.innerHeight;
+    wdHelper.windowHeight.textContent = `${windowHeight}px`;
 };
 
+// on resize of window, call calculateDimensions()
 window.onresize = () => {
-	wdHelper.calculateDimensions();
+    wdHelper.calculateDimensions();
 };
 
+// document ready
 document.addEventListener("DOMContentLoaded", () => {
-	wdHelper.init();
+    wdHelper.init();
 });
