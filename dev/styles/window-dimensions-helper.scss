@@ -1,6 +1,5 @@
-#wdHelper {
+.wdHelper {
     width: 100%;
-    padding: 5px 0;
     margin: 0;
     background-color: #222;
     color: #ddd;
@@ -9,15 +8,17 @@
     position: fixed;
     bottom: 0;
     transition: opacity 0.25s ease-in;
-
-    &:hover { opacity: 0; }
-
-    p {
-        margin: 0;
-        font-size: 16px;
-
-        &:nth-of-type(2) { padding: 5px 0; }
+    &:hover {
+        opacity: 0;
     }
-
-    span { font-size: 20px; }
+    // dimension description
+    &__dimDesc {
+        margin: 5px;
+        font-size: 16px;
+    }
+    // dimension value
+    &__dimVal {
+        font-size: 20px;
+        font-weight: bold;
+    }
 }

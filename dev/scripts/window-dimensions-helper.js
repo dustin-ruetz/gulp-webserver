@@ -1,63 +1,69 @@
 "use strict";
 
-const wdHelper = {
-    // shorthand helper methods for querySelector and querySelectorAll functions
-    dqs: (query) => document.querySelector(query),
-    dqsa: (query) => document.querySelectorAll(query)
+// windowDimensionsHelper (wDH) object
+const wDH = {
+    dimensions: [
+        {
+            description: "width (window)",
+            id: "winWidth"
+        },
+        {
+            description: "width (window+scrollbar)",
+            id: "winWidthScrollbar"
+        },
+        {
+            description: "height (window)",
+            id: "winHeight"
+        }
+    ]
 };
 
-wdHelper.init = () => {
-    wdHelper.insertDimensionsContainer();
+wDH.init = () => {
+    // windows dimensions helper element (wdHE)
+    const wdHE = document.createElement("div");
+    wdHE.classList.add("wdHelper");
+
+    for (let i = 0; i < wDH.dimensions.length; i++) {
+        let dimension = wDH.dimensions[i];
+
+        let dimDesc = document.createElement("p");
+        dimDesc.classList.add("wdHelper__dimDesc");
+        dimDesc.textContent = `${dimension.description} = `;
+
+        let dimVal = document.createElement("span");
+        // note: IE 11 does not support multiple arguments for classList.add()
+        dimVal.classList.add("wdHelper__dimVal");
+        dimVal.classList.add(`wdHelper__dimVal--${dimension.id}`);
+
+        // store each dimVal <span> element on the wDH object
+        wDH[dimension.id] = dimVal;
+
+        // append dimVal <span> elements as children of dimDesc <p> elements
+        dimDesc.appendChild(dimVal);
+        // append dimDesc <p> elements as children of wdHE element
+        wdHE.appendChild(dimDesc);
+    }
+
+    document.querySelector("body").appendChild(wdHE);
+
+    wDH.calculateDimensions();
 };
 
-wdHelper.insertDimensionsContainer = () => {
-    const dimensionsContainer = document.createElement("div");
+wDH.calculateDimensions = () => {
+    wDH.dimensions[0].measurement = document.documentElement.offsetWidth;
+    wDH.dimensions[1].measurement = window.innerWidth;
+    wDH.dimensions[2].measurement = window.innerHeight;
 
-    // add id so element can be targeted with CSS
-    dimensionsContainer.id = "wdHelper";
-
-    // fill dimensionsContainer with HTML elements
-    dimensionsContainer.innerHTML = `
-        <p id="windowWidth">width (window) = <span></span></p>
-        <p id="windowWidthScrollbar">width (window+scrollbar) = <span></span></p>
-        <p id="windowHeight">height (window) = <span></span></p>
-    `
-
-    wdHelper.dqs("body").appendChild(dimensionsContainer);
-
-    wdHelper.storeDimensionElements();
+    for (let i = 0; i < wDH.dimensions.length; i++) {
+        let dimension = wDH.dimensions[i];
+        wDH[dimension.id].textContent = `${dimension.measurement}px`;
+    }
 };
 
-wdHelper.storeDimensionElements = () => {
-    // store the following elements that correspond to:
-        // 1. width of the window
-        // 2. width of the window + scrollbar
-        // 3. height of the window
-    wdHelper.windowWidth = wdHelper.dqs("#windowWidth span");
-    wdHelper.windowWidthScrollbar = wdHelper.dqs("#windowWidthScrollbar span");
-    wdHelper.windowHeight = wdHelper.dqs("#windowHeight span");
+window.addEventListener("resize", () => {
+    wDH.calculateDimensions();
+});
 
-    wdHelper.calculateDimensions();
-};
-
-wdHelper.calculateDimensions = () => {
-    // calculate then update the dimension elements
-    let windowWidth = document.documentElement.offsetWidth;
-    wdHelper.windowWidth.textContent = `${windowWidth}px`;
-
-    let windowWidthScrollbar = window.innerWidth;
-    wdHelper.windowWidthScrollbar.textContent = `${windowWidthScrollbar}px`;
-
-    let windowHeight = window.innerHeight;
-    wdHelper.windowHeight.textContent = `${windowHeight}px`;
-};
-
-// on resize of window, call calculateDimensions()
-window.onresize = () => {
-    wdHelper.calculateDimensions();
-};
-
-// document ready
 document.addEventListener("DOMContentLoaded", () => {
-    wdHelper.init();
+    wDH.init();
 });

@@ -1,19 +1,21 @@
 "use strict";
 
-// gulp module and dependencies
-// pug          : (markup) Pug to HTML
-// inline       : (markup) image SVGs to inline SVGs
-// sass         : (style) SCSS to CSS
-// autoprefixer : (style) add vendor prefixes
-// babel        : (script) ES6 to ES5, requires "babel-preset-es2015" module
-// plumber      : (build tool) prevents gulp pipe from stopping on error
-// notify       : (build tool) used to show errors/messages via tray notifications
-// sourcemaps   : (build tool) creates sourcemaps for source file
-// browsersync  : (build tool) synchronize view/scroll states in multiple browsers
-// doctoc       : (documentation) auto-generate Table of Contents in readme.md
+/*
+    gulp module and descriptions of required packages
+    - pug          : compile Pug to HTML
+    - htmlPrettify : add proper indentation to compiled HTML
+    - sass         : compile SCSS to CSS
+    - autoprefixer : add vendor prefixes
+    - babel        : transpile ES6 to ES5 (requires "babel-preset-es2015" NPM module)
+    - plumber      : prevent gulp pipe from stopping on error
+    - notify       : show errors/messages via tray notifications
+    - sourcemaps   : creates sourcemaps for source file
+    - browsersync  : synchronize events/views in multiple browsers
+    - doctoc       : auto-generate Table of Contents in readme.md
+*/
 const gulp         = require("gulp"),
       pug          = require("gulp-pug"),
-      inline       = require("gulp-inline"),
+      htmlPrettify = require("gulp-html-prettify"),
       sass         = require("gulp-sass"),
       autoprefixer = require("gulp-autoprefixer"),
       babel        = require("gulp-babel"),
@@ -23,59 +25,36 @@ const gulp         = require("gulp"),
       browsersync  = require("browser-sync"),
       doctoc       = require("gulp-doctoc");
 
-// default tasks to run on "gulp" command
-gulp.task("default",
-    [
-        "markup",
-        "style",
-        "script",
-        "devWebserver",
-        "readmeTOC",
-        "watch"
-    ],
-    () => {
+const tasks = [
+    "markup",
+    "style",
+    "script",
+    "devWebserver",
+    "readmeTOC",
+    "watch"
+];
+gulp.task("default", tasks, () => {
         gulp.src("").pipe(notify({message: "dev-webserver has been started."}));
     }
 );
 
-// markup task
-// 1) source: all Pug from dev/ pipes into...
-// 2) pug: converts Pug to HTML, then pipes into...
-// 3) inline: converts image SVGs to inline SVGs, then pipes into...
-// 4) destination: public/ which then pipes into...
-// 5) browsersync: reload the page with the updated markup
 gulp.task("markup", () => {
     return gulp.src("dev/**/*.pug")
         .pipe(plumber({
-            errorHandler: notify.onError("Markup Error: <%= error.message %>")
+            errorHandler: notify.onError("MARKUP ERROR: <%= error.message %>")
         }))
-        .pipe(pug({
-            // pretty: "    " // output prettified HTML with space indentation
-            pretty: false // output compressed/minified HTML
+        .pipe(pug())
+        .pipe(htmlPrettify({
+            indent_char: " ",
+            indent_size: 4
         }))
-        .pipe(inline({
-            base: "icons",
-            disabledTypes: ["css", "img", "js"]
-        }))
-        .pipe(gulp.dest("public/"))
         .pipe(browsersync.reload({stream: true}));
 });
 
-// style task
-// 1) source: all SCSS from dev/styles/ pipes into...
-// 2) plumber: prevents gulp pipe from stopping on error and calls notify if an error is found
-// 3) notify: shows tray notification listing error message and line number, then pipes into...
-// 4) sourcemaps: initializes sourcemaps for source file, then pipes into...
-// 5) sass: converts SCSS to compressed/minified CSS
-// 6) if sass finds a syntax error it logs it in the terminal, then pipes into...
-// 7) autoprefixer: adds in vendor prefixes, then pipes into...
-// 8) sourcemaps: writes sourcemaps for source file, then pipes into...
-// 9) destination: public/styles/ which then pipes into...
-// 10) browsersync: injects CSS into the browser without full page reload
 gulp.task("style", () => {
     return gulp.src("dev/styles/*.scss")
         .pipe(plumber({
-            errorHandler: notify.onError("Style Error: <%= error.message %>")
+            errorHandler: notify.onError("STYLE ERROR: <%= error.message %>")
         }))
         .pipe(sourcemaps.init())
         .pipe(sass({outputStyle: "compressed"})
@@ -89,19 +68,10 @@ gulp.task("style", () => {
         .pipe(browsersync.stream({match: "**/*.css"}));
 });
 
-// script Task
-// 1) source: all JS from dev/scripts/ pipes into...
-// 2) plumber: prevents gulp pipe from stopping on error and calls notify if an error is found
-// 3) notify: shows tray notification listing error message and line number, then pipes into...
-// 4) sourcemaps: initializes sourcemaps for source file, then pipes into...
-// 5) babel: transpiles ES6 to ES5 using the ES2015 preset, compacts and minifies code, then pipes into...
-// 6) sourcemaps: writes sourcemaps for source file, then pipes into...
-// 7) destination: public/scripts/ which then pipes into...
-// 8) browsersync: reload the page with the updated script
 gulp.task("script", () => {
     return gulp.src("dev/scripts/*.js")
         .pipe(plumber({
-            errorHandler: notify.onError("Script Error: <%= error.message %>")
+            errorHandler: notify.onError("SCRIPT ERROR: <%= error.message %>")
         }))
         .pipe(sourcemaps.init())
         .pipe(babel({
@@ -114,35 +84,29 @@ gulp.task("script", () => {
         .pipe(browsersync.reload({stream: true}));
 });
 
-// devWebserver task
 gulp.task("devWebserver", () => {
     browsersync.init({
-        port: 4000, // static port assigned to devWebserver
+        // static port assigned to devWebserver
+        port: 4000,
         server: {
             baseDir: "./",
             index: "public/index.html",
             middleware: (req, res, next) => {
                 // static port assigned to local dev projects
                 res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-                    next();
+                next();
             }
         }
     });
 });
 
-// readmeTOC task
-// 1) source: readme.md file pipes into...
-// 2) doctoc: generates TOC, then pipes into...
-// 3) destination: same as source (contents of readme.md TOC are automatically overwritten/updated)
 gulp.task("readmeTOC", () => {
     return gulp.src("readme.md")
         .pipe(doctoc())
         .pipe(gulp.dest(""));
 });
 
-// watch task
 gulp.task("watch", () => {
-    // files to watch and tasks to run
     gulp.watch("dev/**/*.pug", ["markup"]);
     gulp.watch("dev/styles/*.scss", ["style"]);
     gulp.watch("dev/scripts/*.js", ["script"]);

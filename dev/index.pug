@@ -2,28 +2,27 @@ doctype html
 html(lang="en")
     head
         title dev-webserver
-        link(rel="icon", type="image/png", href="/public/icons/favicon.png")
+        link(rel="icon" type="image/png" href="/public/icons/favicon.png")
         meta(charset="utf-8")
-        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
         style.
             body {
                 margin: 0;
                 background-color: #ddd;
                 color: #222;
                 font-family: "Consolas", monospace;
+                font-size: 18px;
             }
-
-            .container { padding: 20px; }
-
-            h1 {
+            .container {
+                padding: 20px;
+            }
+            .container__title {
                 margin: 0 0 0.67em 0;
                 font-size: 36px;
             }
-
-            p { font-size: 18px; }
     body
-        div.container
-            h1 dev-webserver
+        main.container(role="main")
+            h1.container__title dev-webserver
             p This webserver makes common development resources accessible when developing in a local environment.
             p If this page is open at a #[a(href="#") localhost] location then your resources are ready to be served.
             p Refer to #[a(href="readme.md") readme.md] for more information.

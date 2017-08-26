@@ -15,7 +15,7 @@ This webserver makes common development resources accessible when developing in 
 
 ## Purpose
 
-1. This webserver prevents the need for creating/maintaining separate copies of common development resources across multiple projects.
+1. Prevents the need for creating/maintaining separate copies of common development resources across multiple projects.
 1. It adds the `Access-Control-Allow-Origin` header to the server's response. This header modifies the server's [cross-origin resource sharing (CORS)][cors] policy, thereby allowing it to share local fonts, images, stylesheets, scripts, and any other desired resources.
 
 ## Installation
@@ -33,7 +33,7 @@ This webserver makes common development resources accessible when developing in 
 1. Place the resources you wish to share in the `public/` directory.
     * Static resources (favicons, fonts, images, etc.) can be placed directly in the `public/` folder.
     * Resources that require compilation (such as SCSS files and JavaScript written in ES6 syntax) can be developed in the `dev/` folder. The `gulp` task will compile them to browser-compatible CSS and JS files and output these to the `public/` folder.
-        * An example of a compilable/shareable resource that can be used in responsive web development projects is `window-dimensions-helper` (SCSS and JS files are included in the `dev/` folder). It is a simple helper module that is dynamically injected into the DOM and updates its content whenever the window is resized.
+        * An example of a compilable/shareable resource that can be used in responsive web development projects is `window-dimensions-helper` (SCSS and JS files are included in the `dev/` folder). It is a simple helper module that is dynamically injected into the DOM and its contents are updated every time the window is resized.
 1. Open another project and link to your resources normally via `localhost:4000/public/` (example below).
 
 ```html
@@ -42,7 +42,7 @@ This webserver makes common development resources accessible when developing in 
     <head>
         <title>Project Title</title>
         <link rel="icon" type="image/png" href="http://localhost:4000/public/icons/special-dev-favicon.png">
-        <link rel="stylesheet" href="http://localhost:4000/public/special-font/special-font.css">
+        <link rel="stylesheet" href="http://localhost:4000/public/fonts/special-font.css">
         <link rel="stylesheet" href="http://localhost:4000/public/styles/window-dimensions-helper.css">
         <link rel="stylesheet" href="styles/main.css">
         <meta charset="utf-8">
