@@ -1,6 +1,6 @@
 # dev-webserver
 
-This webserver makes common development resources accessible when developing in a local environment.
+This webserver makes common development resources available when developing in a local environment.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -27,7 +27,7 @@ This webserver makes common development resources accessible when developing in 
 
 ## Usage
 
-**Note:** These instructions assume default ports of `4000` for the dev-webserver and `3000` for other local projects. Edit `gulpfile.js` if you wish to change this configuration.
+**Note:** These instructions assume default ports of `4000` for the webserver and `3000` for other local projects. Edit `gulpfile.js` if you wish to change this configuration.
 
 1. Run `gulp` to start the server at the default `localhost:4000` location.
 1. Place the resources you wish to share in the `public/` directory.

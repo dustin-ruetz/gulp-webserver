@@ -29,14 +29,14 @@ const tasks = [
     "markup",
     "style",
     "script",
-    "devWebserver",
+    "webserver",
     "readmeTOC",
     "watch"
 ];
 gulp.task("default", tasks, () => {
-        gulp.src("").pipe(notify({message: "dev-webserver has been started."}));
-    }
-);
+    return gulp.src("")
+        .pipe(notify({message: "webserver has been started."}));
+});
 
 gulp.task("markup", () => {
     return gulp.src("dev/**/*.pug")
@@ -85,9 +85,9 @@ gulp.task("script", () => {
         .pipe(browsersync.reload({stream: true}));
 });
 
-gulp.task("devWebserver", () => {
+gulp.task("webserver", () => {
     browsersync.init({
-        // static port assigned to devWebserver
+        // static port assigned to webserver
         port: 4000,
         server: {
             baseDir: "./",

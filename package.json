@@ -1,7 +1,7 @@
 {
     "name": "dev-webserver",
     "version": "1.1.0",
-    "description": "This webserver makes common development resources accessible when developing in a local environment.",
+    "description": "This webserver makes common development resources available when developing in a local environment.",
     "main": "gulpfile.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
