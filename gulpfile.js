@@ -48,6 +48,7 @@ gulp.task("markup", () => {
             indent_char: " ",
             indent_size: 4
         }))
+        .pipe(gulp.dest("public/"))
         .pipe(browsersync.reload({stream: true}));
 });
 
