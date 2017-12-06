@@ -29,11 +29,11 @@ This webserver makes common development resources available when developing in a
 
 **Note:** These instructions assume default ports of `4000` for the webserver and `3000` for other local projects. Edit `gulpfile.js` if you wish to change this configuration.
 
-1. Run `gulp` to start the server at the default `localhost:4000` location.
+1. Use `npm run gulp` to start the server at the default `localhost:4000` location.
 1. Place the resources you wish to share in the `public/` directory.
-    * Static resources (favicons, fonts, images, etc.) can be placed directly in the `public/` folder.
-    * Resources that require compilation (such as SCSS files and JavaScript written in ES6 syntax) can be developed in the `dev/` folder. The `gulp` task will compile them to browser-compatible CSS and JS files and output these to the `public/` folder.
-        * An example of a compilable/shareable resource that can be used in responsive web development projects is `window-dimensions-helper` (SCSS and JS files are included in the `dev/` folder). It is a simple helper module that is dynamically injected into the DOM and its contents are updated every time the window is resized.
+    - Static resources (favicons, fonts, images, etc.) can be placed directly in the `public/` folder.
+    - Resources that require compilation (such as SCSS files and JavaScript written in ES6 syntax) can be developed in the `dev/` folder. The `gulp` task will compile them to browser-compatible CSS and JS files and output these to the `public/` folder.
+        - An example of a compilable/shareable resource that can be used in responsive web development projects is `window-dimensions-helper` (SCSS and JS files are included in the `dev/` folder). It is a simple helper module that is dynamically injected into the DOM and its contents are updated every time the window is resized.
 1. Open another project and link to your resources normally via `localhost:4000/public/` (example below).
 
 ```html

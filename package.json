@@ -4,6 +4,7 @@
     "description": "This webserver makes common development resources available when developing in a local environment.",
     "main": "gulpfile.js",
     "scripts": {
+        "gulp": "gulp",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "Dustin Ruetz",
